@@ -1,0 +1,2 @@
+         Prezzo_Init	         Percentuale	     Prezzo_scontato
+             3000.00	               25.00	             2250.00

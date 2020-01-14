@@ -1,0 +1,3 @@
+non palindrome
+palindrome
+palindrome

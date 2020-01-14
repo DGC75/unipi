@@ -1,0 +1,4 @@
+h incorretto. Introdurre un intero maggiore di 0.
+l incorretto. Introdurre un intero maggiore di 0.
+*****
+*****

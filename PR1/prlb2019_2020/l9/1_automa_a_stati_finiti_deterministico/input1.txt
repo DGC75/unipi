@@ -1,0 +1,8 @@
+3
+S1;(S1,b);(S2,a)
+S2;(S1,f);(F1,d);(S2,c)
+F1;(S2,e);(F1,x)
+bbafacccdedxxedx
+x
+bad
+FINE

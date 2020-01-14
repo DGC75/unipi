@@ -1,0 +1,9 @@
+scelta non valida
+         Prezzo_Init	         Percentuale	     Prezzo_scontato
+             3000.00	               25.00	             2250.00
+Prezzo non valido
+Percentuale non valida
+Percentuale non valida
+Percentuale non valida
+         Prezzo_Init	         Percentuale	        Prezzo_ivato
+             1000.00	               80.00	             1800.00

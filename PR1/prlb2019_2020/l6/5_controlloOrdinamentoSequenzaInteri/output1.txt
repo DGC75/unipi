@@ -1,0 +1,2 @@
+Errore. Inserire un numero intero positivo oppure un numero intero negativo per terminare
+Sequenza non in ordine strettamente crescente

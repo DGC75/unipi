@@ -1,0 +1,3 @@
+Errore. Inserisci un intero positivo.
+2
+2

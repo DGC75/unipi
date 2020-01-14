@@ -1,0 +1,12 @@
+Incorretto. Inserisci un intero positivo.
+Incorretto. Inserisci un intero positivo.
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50

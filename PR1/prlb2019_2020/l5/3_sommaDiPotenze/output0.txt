@@ -1,0 +1,5 @@
+Inserisci un intero positivo.
+Inserisci un intero positivo.
+Inserisci un numero reale positivo.
+Inserisci un numero reale positivo.
+1.25

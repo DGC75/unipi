@@ -1,0 +1,5 @@
+Errore. Inserisci un intero positivo.
+5
+6
+6
+5

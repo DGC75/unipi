@@ -1,0 +1,4 @@
+         Prezzo_Init	         Percentuale	        Prezzo_ivato
+             2000.00	               12.00	             2240.00
+         Prezzo_Init	         Percentuale	     Prezzo_scontato
+             2000.00	               12.00	             1760.00

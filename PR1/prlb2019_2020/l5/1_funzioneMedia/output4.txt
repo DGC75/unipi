@@ -1,0 +1,2 @@
+Inserisci un intero.
+-3.40

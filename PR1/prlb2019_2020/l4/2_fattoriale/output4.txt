@@ -1,0 +1,2 @@
+Incorretto. Inserisci un intero positivo.
+5040
