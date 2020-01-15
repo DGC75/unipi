@@ -30,19 +30,18 @@ void saveInt(int *val);
 void errore_input();
 void mem_error();
 
-
 int main(){
 
     Automa *automa = NULL;    
     int dim = acquisisci_automa(&automa);
-
+    scanf("%*c");
     char line[101];
     scanf("%[^\n]", line);
-    printf("'%s'\n", line);
+
     if(riconosci_str(automa, line, dim))
-        puts("Stringa appartenente al linguaggio.");
+        puts("Stringa appartenente al linguaggio");
     else
-        puts("Stringa non appartenente al linguaggio.");
+        puts("Stringa non appartenente al linguaggio");
         
         
     return 0;
@@ -74,31 +73,60 @@ int acquisisci_automa(Automa** aPtr){
         }
         
     }
-
+    (*aPtr) = newAutoma;
     return n_final_states;
 }
 
 
 int  riconosci_str(Automa* aPtr, char *str, int dim){
     int i = 0;
-
+    
     int curr_state = 0;
     char c = str[i];
-    for(i = 1; c!='\0' && c!='\n'; ++i){
-        
-        curr_state = find_in_list(aPtr, curr_state, c);
-        c = str[i];
-    }
 
+    for(i = 1; c!='\0' && c!='\n'; ++i){
+    
+        curr_state = find_in_list(aPtr, curr_state, c);
+        
+        if( curr_state == -1)
+            return 0;
+        
+        c = str[i];
+       
+    }
+     
     return is_in(curr_state, aPtr->arr_stati_finali, dim);
 }
 
+
+
 int find_in_list(Automa *aPtr, int state, char c){
-    return 1;
+    
+    ListaTransizioni lPtr = (aPtr)->arr_lst_trans[state];
+    while(lPtr != NULL){
+        if( lPtr->accepted_c == c){
+            
+            return lPtr->next_state;
+        }
+        
+        lPtr = lPtr->next;
+    }
+    
+    return -1;
+    
 }
 
 int is_in(int val, int *arr, int dim){
-    return 1;
+
+    int i;
+    
+    for(i = 0; i < dim; ++i){
+        if(arr[i] == val)
+            return 1;
+    }
+    
+    return 0;
+    
 }
 
 void insert(ListaTransizioni *lPtr, int next_state, char accepted_c){
@@ -107,7 +135,9 @@ void insert(ListaTransizioni *lPtr, int next_state, char accepted_c){
 
     if (newTrans == NULL)
         mem_error();
-
+    
+    newTrans->accepted_c = accepted_c;
+    newTrans->next_state = next_state;
     newTrans->next = *lPtr;
     (*lPtr) = newTrans;
 }
