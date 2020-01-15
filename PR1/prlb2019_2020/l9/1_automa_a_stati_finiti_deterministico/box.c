@@ -32,8 +32,9 @@ int lunghezza_stringa(FILE* file_input);
 void aggiungi_nuovo_stato(Stato* stati_automa);
 void insert_ListaTransizioni(ListaTransizioni *lPtr, Transizione* newTrans);
 Bool string_belong(char *str, int dim, Stato *stati_automa);
-Bool is_there(char c, ListaTransizioni lPtr);
-void set_current_state(char** c, ListaTransizioni lPtr);
+void set_current_state(char** current_state, ListaTransizioni lPtr);
+
+int is_in();
 
 int main(void){
 
@@ -46,12 +47,14 @@ int main(void){
 		aggiungi_nuovo_stato(&stati_automa[i]);	
 	}
 
-	char riga[MAX_DIM];
-	while(fgets(riga, MAX_DIM, stdin) != NULL && (strcmp(riga,"FINE") != 0)){
+	char riga[MAX_DIM+1];
+	while(fgets(riga, MAX_DIM+1, stdin) != NULL && (strcmp(riga,"FINE") != 0)){
 		if (string_belong(riga, MAX_DIM, stati_automa)){
 			printf("%s\n", riga);
 		}
-	}	
+	}
+	
+	return 0;	
 }
 
 void aggiungi_nuovo_stato(Stato* stato_automa){
@@ -103,31 +106,22 @@ void aggiungi_nuovo_stato(Stato* stato_automa){
 Bool string_belong(char *str,int dim, Stato *stati_automa){
 	
 	int i;
-	static char c;
 	char *current_state = stati_automa[0].nome;
-
-	for (i = 0; i < dim; ++i){
-		c = str[i];
-		if (is_there(c, stati_automa->lista_transizioni)){
-			set_current_state(&current_state, stati_automa->lista_transizioni);
-		}
-		else{
-			return false;
-		}
+	
+	for(i = 0; i < dim; ++i){
+	
+	    set_current_state(&current_state , stati_automa[i].lista_transizioni);
 	}
-	if ( current_state[0] == 'F' ) {
-		return true;
-	}
-	else{
-		return false;
-	}
+	
+	if(current_state[0] == 'F')
+	    return 1;
+	else
+	    return 0;
 }
 
-Bool is_there(char c, ListaTransizioni lPtr){
 
-}
 
-void set_current_state(char** c, ListaTransizioni lPtr){
+void set_current_state(char** current_state, ListaTransizioni lPtr){
 
 }
 
