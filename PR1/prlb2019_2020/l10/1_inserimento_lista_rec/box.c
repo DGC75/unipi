@@ -12,7 +12,7 @@ void insert_h(ListaInteri *lPtr, int data);
 void insert_negativi(ListaInteri *lPtr);
 void print_lst(ListaInteri lPtr);
 void mem_error();
-
+void free_lst(ListaInteri *lPtr);
 
 int main(void){
 
@@ -24,6 +24,7 @@ int main(void){
 	}
 	insert_negativi(&lst);
 	print_lst(lst);
+    free_lst(&lst);
 
     return 0;
 }
@@ -47,6 +48,17 @@ void insert_h(ListaInteri *lPtr, int input){
 
 	*lPtr = newIntero;
 
+}
+
+
+void free_lst(ListaInteri *lPtr){
+
+    while((*lPtr)->next != NULL){
+        free_lst(&(*lPtr)->next);
+    }
+    
+    free(*lPtr);
+    *lPtr = NULL;
 }
 
 void insert_negativi(ListaInteri *lPtr){
