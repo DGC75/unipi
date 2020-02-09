@@ -1,0 +1,10 @@
+Primo elenco:
+(5 8 15 15 )
+Primo elenco senza duplicati:
+(5 8 15 )
+Secondo elenco:
+(5 5 8 9 10 20 20 21 )
+Secondo elenco senza duplicati:
+(5 8 9 10 20 21 )
+Primo elenco filtrato:
+(15 )

@@ -1,0 +1,10 @@
+Primo elenco:
+(1 1 1 2 )
+Primo elenco senza duplicati:
+(1 2 )
+Secondo elenco:
+(1 3 6 7 )
+Secondo elenco senza duplicati:
+(1 3 6 7 )
+Primo elenco filtrato:
+(2 )

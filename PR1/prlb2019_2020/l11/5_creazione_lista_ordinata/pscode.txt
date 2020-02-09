@@ -1,0 +1,20 @@
+//FUNZIONE INSER_ORD (lPtr, val);
+
+	//CREA newIntero
+	//SE LA LISTA E'VUOTA:
+		//INSERISCI IN TESTA
+	//ALTRIMENTI:
+		if(val < lst->dato)
+			//INSERISCI IN TESTA
+		else{
+			//NEW precPtr = lst;
+			//NEW corrPtr = lst->next;
+
+			while(val > precPtr->dato && corrPtr != NULL){
+				precPtr=corrPtr;
+				corrPtr = corrPtr->next;
+			}
+
+			precPtr->next = newIntero;
+			newIntero->next = corrPtr;
+		}

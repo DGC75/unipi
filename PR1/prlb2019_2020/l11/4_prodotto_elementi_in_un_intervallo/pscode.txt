@@ -1,0 +1,20 @@
+//PSEUDOCODICE PER INSERIMENTO ORDINATO SENZA DUPLICATI
+
+//SE LA LISTA E' VUOTA:
+	INSERISCI ELEMENTO IN TESTA ALLA LISTA.
+//SE LA LISTA NON E' VUOTA:
+	//NEW precPtr = *lst;
+	//NEW corrPtr = *lst->next;
+
+	if(val < *lst->dato)
+		//INSERISCI IN TESTA
+	else
+		while(val < precPtr->dato && corrPtr != NULL){
+			precPtr = corrPtr;
+			corrPtr = corrPtr->next;
+		}
+		if(val != precPtr->dato && val != corrPtr->dato){
+			//INSERISCI IN MEZZO
+		}
+
+

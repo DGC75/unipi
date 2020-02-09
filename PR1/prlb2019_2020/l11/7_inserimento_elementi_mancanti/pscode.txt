@@ -1,0 +1,31 @@
+//MAIN 
+//ACQUISISCI LISTA E ORDINALA IN INSERIMENTO
+	//SE LA LISTA E' VUOTA 
+		//METTI IN CIMA
+	//ALTRIMENTI
+		//SE L'ELEMENTO E' MAGGIORE O UGUALE DELLA TESTA
+			//INSERISCI IN TESTA
+		//ALTRIMENTI
+		//SCORRI FINO A QUANDO IL NUMERO NON E' MINORE O UGUALE DEL PRECEDENTE
+		//INSERISCI IN MEZZO
+
+//INSERISCI ELEMENTI MANCANTI
+	//CREA precPtr = NULL
+	//CREA corrPtr = lst;
+	if(lst != NULL)
+		while(corrPtr->next != NULL){
+			precPtr = corrPtr
+			corrPtr = corrPtr->next;
+
+			if (precPtr->dato - corrPtr->dato != 1){
+				range = precPtr->dato - corrPtr->dato - 1;
+
+				for(i=1; i < range; i++){
+					newIntero = creaNewIntero(precPtr->dato - i);
+					newIntero->next = corrPtr;
+					precPtr->next = newIntero;
+				}
+			}
+		}
+//STAMPA LISTA
+//LIBERA LA MEMORIA
