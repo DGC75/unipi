@@ -1,0 +1,6 @@
+//SALVA STR1
+//SALVA STR2
+
+//STAMPA OUTPUT 'anagramma(str1, str2);
+
+//ANAGRAMMA(str1, str2);
