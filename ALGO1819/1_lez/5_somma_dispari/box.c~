@@ -15,8 +15,9 @@ int main(){
 
 int somma_dispari(int val, int count, int acc){
 	
-	if(count < val)
+	if(count < val){
 		return somma_dispari(val, ++count, acc + (2*count +1) ) ;		
+	}
 	else
 		return acc;
 }
