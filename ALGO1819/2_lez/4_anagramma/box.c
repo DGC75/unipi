@@ -66,7 +66,7 @@ unsigned char* get_string(FILE *fPtr){
 	if(tmp == NULL)
 		mem_error();
 
-	if(fgets( (char*) tmp, dim+1, fPtr) == NULL)
+	if(fgets((char*) tmp, dim+1, fPtr) == NULL)
 		str_error();
 
 	fgetc(fPtr);
