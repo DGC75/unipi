@@ -17,7 +17,7 @@ int main(){
 	
 	char* str = get_string(stdin);
     int n = get_int(stdin);
-
+    printf("''%s''", str);
     char* output = product(str, n);
     
 	printf("%s\n", output);
