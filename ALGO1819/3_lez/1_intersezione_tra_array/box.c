@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*TEST VSCODE*/
+
 int  get_int(FILE *fPtr);
 int* get_arr(size_t dim1, FILE *fPtr); 
 int  n_inters_arrs(int arr1[], int arr2[], size_t dim1, size_t dim2);
