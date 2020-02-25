@@ -1,0 +1,11 @@
+//ALGORITHM FOR INTERSECTION ON ORDERED SETS
+
+A1[L1] = {...};
+A2[L2] = {...};
+
+ptrA = min(A1, A2);
+lenMin = flenMin(L1, L2);
+
+ptrB = max(A1, A2);
+lenMax = flenMax(L1, L2);
+
