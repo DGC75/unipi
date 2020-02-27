@@ -5,6 +5,8 @@ int  get_int(FILE *fPtr);
 int* get_arr(size_t dim1, FILE *fPtr); 
 int  n_inters_arrs(int arr1[], int arr2[], size_t dim1, size_t dim2);
 
+void print_arr(int arr[], size_t dim);
+
 void mem_err();
 
 int main(){
@@ -14,7 +16,7 @@ int main(){
     
     int dim2 = get_int(stdin);
     int* arr2 = get_arr(dim2, stdin);   
-    
+
     printf("%d\n", n_inters_arrs(arr1, arr2, dim1, dim2));
     
 return 0; 
@@ -28,6 +30,12 @@ int input;
     return input;
 }
 
+void print_arr(int arr[], size_t dim){
+    int i;
+    for(i = 0; i < dim; ++i)
+        printf("%d ", arr[i]);
+    puts("");
+}
 
 
 int* get_arr(size_t dim1, FILE *fPtr){
@@ -49,6 +57,22 @@ int  n_inters_arrs(int arr1[], int arr2[], size_t dim1, size_t dim2){
 
     int n_inters = 0;
 
+    int i = 0, j = 0;
+
+    while(i < dim1 && j < dim2){
+        if(arr1[i] == arr2[j]){
+            n_inters++;
+            i++;
+            j++;
+        }
+        while(arr1[i] < arr2[j] && i < dim1)
+            i++;    
+
+        while(arr1[i] > arr2[j] && j < dim2)
+            j++;      
+            
+    }    
+    return n_inters;
 }
 
 void mem_err(){
