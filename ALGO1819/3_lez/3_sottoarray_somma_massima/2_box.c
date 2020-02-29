@@ -18,23 +18,20 @@ int main(){
 
 int sub_arr_max_sum(int arr[], size_t dim){
     
-    int result = 0;
-    int tmp_result = 0;
-    int i;
-
-
-    for(i = 0; i < dim; i++){
-
-        tmp_result += arr[i];
-
-        if(arr[i] >= 0 && tmp_result > result)
-                result = tmp_result;
-
-        else if(tmp_result < 0)
-            tmp_result = 0;
+    int result = 0, temp;
+    int size, i, j;
+    for(size = 1; size <= dim; size++){
+        for(i = 0; i + size - 1 < dim; i++){
+            temp = 0;
+            for(j = i; j <= i + size; j++){
+                temp += arr[j]; 
+            }
+            if(temp > result)
+                result = temp;
+        }
     }
 
-    return result;
+    return result;               
 }
 
 
