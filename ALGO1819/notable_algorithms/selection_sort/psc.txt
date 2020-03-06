@@ -1,0 +1,12 @@
+//SELECTION SORT (A , n)
+
+for(i = 1 to n - 1)
+    min = i
+    for( j = i +1 to n)
+        if( A[j] < A[min])
+            j = min
+
+    swap(A[i], A[min]);
+
+/*COMPLESSITA'*/
+/*CORRETTEZZA*/

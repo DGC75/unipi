@@ -2,7 +2,9 @@
 #include <stdlib.h>
 
 #define CHAR_RANGE 256 
-
+/*
+COMPLESSITA' ANAGRAMMI PRINCIPALI: n*log(n)
+*/
 void str_error();
 void mem_error();
 
