@@ -1,5 +1,7 @@
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 /* 
   !!!!!!!!!!!! D A  F A R E !!!!!!!!!!!!
@@ -10,21 +12,63 @@
 */
 int distribuzione(int a[], int sx, int px, int dx) { 
 
+  int k = a[px];
+
+  int j = dx + 1;
+  int i = sx - 1;
+/*
+  printf("SOTTOARRAY DA %d a %d PRIMA DI PARTITION\n", sx, dx);
+  printf("pivot a[%d] = %d\n", px, a[px]);
+  int l;
+  for(l =sx; l <= dx; l++){
+    printf("%d ", a[l]);
+  }
+  puts("");
+*/
+
+  while(1 == 1){
+
+    
+    do{ j--; } while (a[j] > k);     
+    do{ i++; } while (a[i] < k);
+       
+    
+    if(i < j){
+      /*SWAP*/
+      int tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+
+    }
+    else{
+/*
+    printf("SOTTOARRAY DA %d a %d DOPO PARTITION\n", sx, dx);
+    printf("pivot a[%d] = %d\n", j, a[j]);
+    for(l =sx; l <= dx; l++){
+      printf("%d ", a[l]);
+    }
+    puts("");
+    puts("");
+    puts("");
+*/
+
+    return j;
+    }
+
+  }
+
 }
 
 void quicksort( int a[], int sx, int dx ) {
   
   int perno, pivot;
   if( sx < dx ) {
-    /* DA IMPLEMENTARE: scelta del pivot. Scegliere una posizione a caso tra sx e dx inclusi. */
-    pivot = sx + rand()%(dx - sx + 1);
 
+    pivot = sx + rand()%(dx - sx + 1);
     perno = distribuzione(a, sx, pivot, dx); 
-    /* separa gli elementi minori di a[pivot] 
-	  da quelli maggiori o uguali */
     /* Ordina ricorsivamente le due metà */
-    quicksort(a, sx, perno-1);
-    quicksort(a, perno+1, dx);
+    quicksort(a, sx, perno);
+    quicksort(a, perno + 1, dx);
     
   }
 
@@ -55,7 +99,7 @@ int main() {
   if( legge(&A, &n)) return 1;
 
   srand(time(NULL));
-  quick_sort(A, 0, n-1);
+  quicksort(A, 0, n-1);
   
   /* Stampa l'array ordinato */
   for( i = 0; i < n; i++ ) 

@@ -63,7 +63,6 @@ int string_binary_search(char **arr_of_strings, char *string, int start, int end
     
     
     if(start == end)
-               
         return -1;
     else{
         int q = (start + end)/2; 
