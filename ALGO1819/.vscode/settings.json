@@ -3,6 +3,8 @@
         "stdio.h": "c",
         "algorithm": "c",
         "string.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "__locale": "c",
+        "functional": "c"
     }
 }

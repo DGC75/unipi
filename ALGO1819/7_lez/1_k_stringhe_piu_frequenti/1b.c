@@ -20,11 +20,7 @@ int         count_different_strings (char** str_arr,int dim);
 char**      get_arr_of_strings      (int dim);
 Stringa**   get_arr_of_str_struct   (char ** str_arr, int dim, int* new_size);
 
-void        mem_err                 ();
-void        err                     ();
 
-void        free_arr_of_strings(char ***arr, int dim);
-void        free_arr_of_structs(Stringa ***arr, int dim);
 
 int main(){
 
@@ -33,7 +29,6 @@ int main(){
     scanf("%d", &n);
 
     /*PULIZIA BUFFER*/
-    scanf("%*[^\n]");
     scanf("%*c");
 
     /*LEGGI K*/
@@ -41,7 +36,6 @@ int main(){
     scanf("%d", &k);
 
     /*PULIZIA BUFFER*/
-    scanf("%*[^\n]");
     scanf("%*c");
 
     /*SALVA TUTTE LE STRINGHE IN A ARRAY DI STRINGHE*/
@@ -71,39 +65,23 @@ int main(){
     for(i = 0; i < k; i++)
         printf("%s\n", new_arr_of_strings[i]->str);
     
-    /*DEALLOCA MEMORIA*/
-
-    free_arr_of_strings(&arr_of_strings, n);
-    free_arr_of_structs(&new_arr_of_strings, size_new_arr);
 
 }
 
 int str_cmp (const void *a, const void *b){
-
-    char* a_str = *(char**) a;
-    char* b_str = *(char**) b;
-
-
-    return strcmp(a_str, b_str);
+    return strcmp(*(char**) a, *(char**) b);
 }
 
 int struct_str_cmp (const void *a, const void *b){
-    
-    Stringa* a_struct = *(Stringa**) a;
-    Stringa* b_struct = *(Stringa**) b;
-
-    return strcmp(a_struct->str, b_struct->str);
+    return strcmp((*(Stringa**)a)->str, (*(Stringa**)b)->str);
 }
 
 int struct_int_cmp (const void *a, const void *b){
     
-    Stringa* a_struct = *(Stringa**) a;
-    Stringa* b_struct = *(Stringa**) b;
-
-    if(a_struct->occ > b_struct->occ){
+    if((*(Stringa**)a)->occ > (*(Stringa**)b)->occ){
         return -1;
     }
-    else if(a_struct->occ < b_struct->occ){
+    else if((*(Stringa**)a)->occ < (*(Stringa**)b)->occ){
         return 1;
     }
     else{
@@ -115,25 +93,15 @@ char** get_arr_of_strings (int dim){
     
     char **new_arr_of_strings = calloc(dim ,sizeof(char*));
 
-    if(new_arr_of_strings == NULL)
-        mem_err();
     
     int i;    
     for(i = 0; i < dim; i++){
         
         new_arr_of_strings[i] = calloc(MAX_STR_LEN + 1, sizeof(char));
-        
-        if(new_arr_of_strings[i] == NULL)
-            mem_err();
-
-        if(fgets(new_arr_of_strings[i], MAX_STR_LEN + 1, stdin) == NULL)
-            err();
-        
+        fgets(new_arr_of_strings[i], MAX_STR_LEN + 1, stdin);
         new_arr_of_strings[i][strlen(new_arr_of_strings[i]) - 1] = '\0';
+
     }
-
-
-
     return new_arr_of_strings;
 }
 
@@ -143,15 +111,8 @@ Stringa** get_arr_of_str_struct (char ** str_arr, int dim, int* new_size){
 
     Stringa** new_arr_of_structs = calloc(size, sizeof(Stringa*));
 
-    if(new_arr_of_structs == NULL)
-        mem_err();
-
-
-
     new_arr_of_structs[0] = calloc(1, sizeof(Stringa));
     
-    if(new_arr_of_structs[0] == NULL)
-        mem_err();
 
     new_arr_of_structs[0]->occ = 1;
     new_arr_of_structs[0]->str = str_arr[0];
@@ -167,8 +128,6 @@ Stringa** get_arr_of_str_struct (char ** str_arr, int dim, int* new_size){
             
             new_arr_of_structs[j] = calloc(1, sizeof(Stringa));
 
-            if(new_arr_of_structs[j] == NULL)
-                mem_err();
             
             new_arr_of_structs[j]->occ = 1;
             new_arr_of_structs[j]->str = str_arr[i];
@@ -183,15 +142,6 @@ Stringa** get_arr_of_str_struct (char ** str_arr, int dim, int* new_size){
     return new_arr_of_structs;
 }
 
-void mem_err(){
-    puts("memoria esaurita.");
-    exit(EXIT_FAILURE);
-}
-
-void err(){
-    puts("errore generico.");
-    exit(EXIT_FAILURE);
-}
 
 int count_different_strings(char** str_arr,int dim){
     
@@ -203,26 +153,4 @@ int count_different_strings(char** str_arr,int dim){
             result++;
 
     return result;
-}
-
-void free_arr_of_strings(char ***arr, int dim){
-    int i;
-    for(i = 0; i < dim; i++){
-        free( *(*arr + i));
-        *(*arr + i) = NULL;
-    }
-    free(*arr);
-    *arr = NULL;
-}
-
-void free_arr_of_structs(Stringa ***arr, int dim){
-
-    int i;
-    for(i = 0; i < dim; i++){
-        free( *(*arr + i));
-        *(*arr + i) = NULL;
-    }
-    free(*arr);
-    *arr = NULL;
-
 }
