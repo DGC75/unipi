@@ -23,8 +23,8 @@ Stringa**   get_arr_of_str_struct   (char ** str_arr, int dim, int* new_size);
 void        mem_err                 ();
 void        err                     ();
 
-void        free_arr_of_strings(char ***arr, int dim);
-void        free_arr_of_structs(Stringa ***arr, int dim);
+void        free_arr_of_strings     (char ***arr, int dim);
+void        free_arr_of_structs     (Stringa ***arr, int dim);
 
 int main(){
 
@@ -44,7 +44,7 @@ int main(){
     scanf("%*[^\n]");
     scanf("%*c");
 
-    /*SALVA TUTTE LE STRINGHE IN A ARRAY DI STRINGHE*/
+    /*SALVA TUTTE LE STRINGHE IN A, ARRAY DI STRINGHE*/
 
     char ** arr_of_strings = get_arr_of_strings(n);
 
