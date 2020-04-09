@@ -12,12 +12,9 @@ typedef struct node{
 
 typedef Node* List;
 
-void    print_lst(List lst);
 int     get_int();
 Node*   insert_tail_list(int val, List* lst);
 int     is_in_list(int i, List* lst);
-void    free_lst(List* lst);
-void    mem_err();
 Node*   sec_alloc_node();
 
 int main(void){
@@ -34,18 +31,9 @@ int main(void){
     int i;
     for(i = 0; i < N - 1; i++)
         last_ptr = insert_tail_list(get_int(), &last_ptr);
-
-
-    /*LEGGI i*/
-
-    /*FINCHE' i E' in LISTA, AGGIORNA CONTATORE RICERCHE, 
-    ORDINA LISTA (DECRESCENTE) RISPETTO AI CONTATORI DI RICERCA*/
-    /*SE I NON E' IN LISTA, STAMPA -1 ED ESCI DAL CICLO*/
     
     while(is_in_list(get_int(), &lst) == 1);
 
-    /*FREE VARI*/
-    free_lst(&lst);
 }
 
 int get_int(){
@@ -112,12 +100,15 @@ int is_in_list(int i, List* lst){
                         tmpPtr->prec = corrPtr;
                         corrPtr->prec = NULL;
                         *lst = corrPtr;
+                        return 1;
                         
                     }else{
                         /*ALTRIMENTI POSIZIONALO DAVANTI A tmpPtr*/
                         corrPtr->next = tmpPtr->next;
                         tmpPtr->next = corrPtr;
                         corrPtr->prec = tmpPtr;
+
+                        return 1;
                     }
                 }   
                 else{
@@ -127,13 +118,14 @@ int is_in_list(int i, List* lst){
                         corrPtr->prec = tmpPtr->prec;
                         corrPtr->next = tmpPtr;
                         tmpPtr->prec = corrPtr;
+                        return 1;
                     }
                     else{
                     /*POSIZIONA corrPtr davanti a tmpPtr*/
                     corrPtr->next = tmpPtr->next;
                     tmpPtr->next = corrPtr;
                     corrPtr->prec = tmpPtr;
-
+                    return 1;
                     }
 
                 }
@@ -150,35 +142,9 @@ int is_in_list(int i, List* lst){
     return -1;
 }
 
-void free_lst(List* lst){
-    if(lst != NULL && *lst != NULL){
-        if((*lst)->next != NULL)
-            free_lst(&(*lst)->next);
-    
-    (*lst)->prec = NULL;
-    free(*lst);
-    *lst = NULL;
-    }
-}
 
-void mem_err(){
-    puts("memoria heap esaurita.");
-    exit(EXIT_FAILURE);
-}
+
 
 Node* sec_alloc_node(){
-
-    Node *tmp = calloc(1, sizeof(Node));
-
-    if(tmp == NULL)
-        mem_err();
-
-    return tmp;
-}
-
-void print_lst(List lst){
-    while(lst != NULL){
-        printf("%d, count: %d\n", lst->val, lst->count);
-        lst = lst->next;
-    }
+    return calloc(1, sizeof(Node));
 }
