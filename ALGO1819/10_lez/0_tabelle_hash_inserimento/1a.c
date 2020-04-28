@@ -32,8 +32,6 @@ int main(void){
 
     /*ALLOCA TABELLA DI LISTE LUNGA 2n*/
     List* table = calloc(2*n, sizeof(Node*));
-    int i;
-
 
     if(table == NULL)
         mem_err();
@@ -42,7 +40,8 @@ int main(void){
     int conflicts = 0;
     /*METTI n INTERI NELLA TABELLA, USANDO COME INDICE IL VALORE DI HASH DELL'ELEMENTO INSERITO*/
     /*TIENI IL CONTO DEL NUMERO DI CONFLITTI E DELLA LISTA PIU' LUNGA AD OGNI INSERIMENTO*/
-
+    
+    int i;
     for(i = 0; i < n; i++)
         insert_el_in_table(get_int(), table, &max_len, &conflicts, a , b, n);
 
