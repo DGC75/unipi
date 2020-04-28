@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define P 99149
+#define P 999149
 
 typedef struct node{
     int val;
@@ -20,7 +20,8 @@ int list_length(List lst);
 void mem_err();
 int get_int();
 
-
+void free_table(List* table_ptr, int dim);
+void free_list(List *lst_ptr);
 
 int main(void){
     int n, a, b;
@@ -30,7 +31,10 @@ int main(void){
     b = get_int();
 
     /*ALLOCA TABELLA DI LISTE LUNGA 2n*/
-    List table = calloc(2*n, sizeof(Node*));
+    List* table = calloc(2*n, sizeof(Node*));
+    int i;
+
+
     if(table == NULL)
         mem_err();
     
@@ -38,12 +42,15 @@ int main(void){
     int conflicts = 0;
     /*METTI n INTERI NELLA TABELLA, USANDO COME INDICE IL VALORE DI HASH DELL'ELEMENTO INSERITO*/
     /*TIENI IL CONTO DEL NUMERO DI CONFLITTI E DELLA LISTA PIU' LUNGA AD OGNI INSERIMENTO*/
-    int i;
+
     for(i = 0; i < n; i++)
-        insert_el_in_table(get_int(), &table, &max_len, &conflicts, a , b, n);
+        insert_el_in_table(get_int(), table, &max_len, &conflicts, a , b, n);
 
     printf("%d\n", max_len);
     printf("%d\n", conflicts);
+
+    /*FREE TABELLA*/
+    free_table(table, 2*n);
 
     return 0;
 }
@@ -70,16 +77,17 @@ int insert_head(List* list_ptr, int* max_ptr, int val){
 
     if( *list_ptr == NULL){
         *list_ptr = new_node;
-        set_max(max_ptr, list_ptr);
+        set_max(max_ptr, *list_ptr);
         return 0;
     }
     else{
-        new_node->next = list_ptr;
-        list_ptr = new_node;
+        new_node->next = *list_ptr;
+        *list_ptr = (new_node);
         set_max(max_ptr, *list_ptr);
         return 1;
     }
 }
+
 
 void set_max(int *max, List lst){
     int length = list_length(lst);
@@ -90,7 +98,7 @@ void set_max(int *max, List lst){
 int list_length(List lst){
     int length = 0;
     while(lst != NULL){
-        length++;
+        ++length;
         lst = lst->next;
     }
 
@@ -99,6 +107,24 @@ int list_length(List lst){
 
 int hash(int x, int a, int b, int n){
     return ((a*x + b) % P) % (2*n);
+}
+
+void free_table(List* table_ptr, int dim){
+    int i;
+    for(i = 0; i < dim; i++)
+        free_list(&(table_ptr[i]));
+    
+    free(table_ptr);
+    table_ptr = NULL;
+}
+
+void free_list(List *lst_ptr){
+    if(lst_ptr != NULL && *lst_ptr != NULL){
+        if( (*lst_ptr)->next != NULL)
+            free_list( &((*lst_ptr)->next) ); 
+        free(*lst_ptr);
+        *lst_ptr = NULL;
+    }
 }
 
 int get_int(){
