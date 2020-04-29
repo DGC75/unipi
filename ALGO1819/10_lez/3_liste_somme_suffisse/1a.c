@@ -14,6 +14,8 @@ int  get_int();
 
 Node* insert_tail(List* lst_ptr, int val);
 
+int  suffix_sum(List lst);
+
 void apply_lst(List* lst_ptr);
 void print_lst(List lst);
 void free_lst(List* lst_ptr);
@@ -72,17 +74,40 @@ Node* insert_tail(List* lst_ptr, int val){
             mem_err();
         
         newNode->val = val;
-            *lst_ptr = newNode;
         
+        if (*lst_ptr == NULL)
+            *lst_ptr = newNode;
+        else
+            (*lst_ptr)->next = newNode;
+
+
         return newNode;
+        
     }
     err();
     return NULL;
 }
 
+int suffix_sum(List lst){
+    int temp = 0;
+    while(lst != NULL){
+        temp += lst->val;
+        lst = lst->next;
+    }
+    return temp;
+}
+
 void apply_lst(List* lst_ptr){
-    Node* tmp_ptr = *lst_ptr;
-    
+    /*PER OGNI EL DELLA LISTA*/
+        /*CALCOLA SOMMA SUCCESSIVI*/
+        /*SOSTITUISCI AL VALORE CORRENTE*/
+
+    Node* ptr = *lst_ptr;
+
+    while(ptr != NULL){
+        ptr->val = suffix_sum(ptr->next);
+        ptr = ptr->next;
+    }    
 }
 
 void print_lst(List lst){
@@ -90,6 +115,7 @@ void print_lst(List lst){
         printf("%d ", lst->val);
         lst = lst->next;
     }
+    puts("");
 }
 
 void free_lst(List* lst_ptr){
@@ -101,7 +127,6 @@ void free_lst(List* lst_ptr){
             free(*lst_ptr);
             *lst_ptr = NULL;
         }
-        free(lst_ptr);
         lst_ptr = NULL;
     }
 
