@@ -14,34 +14,49 @@ Node*   alloc_new_node();
 void    mem_err();
 int     get_int();
 void    abr_insert(Tree* tree_ptr, int val);
-void    abr_query(Tree tree, int val, int h);
+void    abr_query(Tree tree);
 void    free_tree(Tree* tree_ptr);
-
-
+int     max(int c1, int c2);
 
 int main(){
 
     Tree tree = NULL;
+
     /*LEGGI N*/
     int N = get_int();
-    /*INSERISCI N ELEMENTI NELL'ABR*/
+    
+    /*INSERISCI N INTERI NELL'ABR*/
     int i;
     for(i = 0; i < N; i++)
         abr_insert(&tree, get_int());
 
-
-    /*LEGGI ALL'INFINITO DELLE RICHIESTE, RISPONDENDO ADEGUATAMENTE*/
-    /*ESCI SOLO SE IL NUMERO INSERITO E' < 0*/
-    int val = get_int();
-    while(val >= 0){
-        abr_query(tree, val, 0);
-        val = get_int();
-    }
-
+    /*STAMPA ELEMENTI ALBERO IN ORDINE NON DECRESCENTE (DEB. CRESCENTE)*/
+    abr_query(tree);
+    
     /*FREE TREE*/
     free_tree(&tree);
 
     return 0;
+}
+
+void abr_query(Tree tree){
+    /*VISITA SIMMETRICA DI TREE*/
+    if(tree != NULL){
+        
+        abr_query(tree->left);
+        
+        printf("%d\n", tree->val);
+
+        abr_query(tree->right);
+    }
+}
+
+int max(int c1, int c2){
+    int cmp = c1 - c2;
+    if(cmp <= 0)
+        return c2;
+    else
+        return c1;
 }
 
 int get_int(){
@@ -69,25 +84,6 @@ void abr_insert(Tree* tree_ptr, int val){
         
     }
 }
-void abr_query(Tree tree, int val, int h){
-    /*SE VAL SI TROVA NELL'ALBERO STAMPA PROFONDITA'*/
-    /*ALTRIMENTI STAMPA 'NO'*/
-
-    if(tree == NULL){
-        puts("NO");
-        return;
-    }
-
-    int cmp =  val - tree->val;
-
-    if(cmp == 0)
-        printf("%d\n", h);
-    else if(cmp < 0)
-        abr_query(tree->left, val, ++h);
-    else if(cmp > 0)
-        abr_query(tree->right, val, ++h);
-}
-
 
 void free_tree(Tree* tree_ptr){
     if(tree_ptr != NULL && *tree_ptr != NULL){
@@ -99,7 +95,7 @@ void free_tree(Tree* tree_ptr){
 }
 
 
-Node*   alloc_new_node(){
+Node* alloc_new_node(){
     
     Node *tmp_node = calloc(1, sizeof(Node));
 
