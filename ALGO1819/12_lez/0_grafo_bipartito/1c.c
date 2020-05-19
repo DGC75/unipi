@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /*DEFINITIONS*/
 /*Graph Definition*/
 typedef struct node{
@@ -26,8 +25,6 @@ Graph alloc_graph(int dim);
 void bfs_visit(Graph graph, int dim, int start_node);
 void free_graph(Graph *graph_ptr, int dim);
 
-int is_bipartite(Graph graph, int dim, int start_node);
-
 
 /*Queue methods*/
 Queue* alloc_queue(int dim);
@@ -49,25 +46,15 @@ int main(){
     Graph new_graph; 
     int dim_graph = load_graph(&new_graph);
 
-    /*CALCOLA E STAMPA SE IL GRAFO E' BIPARTITO O MENO*/
-    printf("%d\n", is_bipartite(new_graph, dim_graph, 0));
+    /*VISITA E STAMPA I NODI DI UN GRAFO ORIENTATO*/
+    /*TRAMITE VISITA BFS*/
+    bfs_visit(new_graph, dim_graph, 3);
+   
 
     /*DEALLOCA GRAFO*/
     free_graph(&new_graph, dim_graph);
    
     return 0;
-}
-
-int is_bipartite(Graph graph, int dim, int start_node){
-        /*FAI UNA BFS SUL GRAFO:*/
-            /*SETTA IL NODO DI PARTENZA DI COLORE: ROSSO*/
-            /*OGNI VOLTA CHE VISITI UN NODO*/
-            /*SE DI COLORE BIANCO*/ 
-                /*LO SI COLORA DEL COLORE OPPOSTO AL PADRE*/
-            /*SE IL COLORE E' DIVERSO DAL BIANCO*/
-                /*SE IL COLORE E' UGUALE A QUELLO DEL PADRE*/
-                    /*ESCI E RITORNA ZERO*/
-                /*ALTRIMENTI, NON FARE NULLA*/
 }
 
 void free_graph(Graph *graph_ptr, int dim){
@@ -206,7 +193,7 @@ void enqueue(Queue **queue_ptr, int val){
 int dequeue(Queue **queue_ptr){
     
     if((*queue_ptr)->last_occupied_place == 0){
-        puts("Empty Queue. Something went wrong.");
+        puts("Coda vuota. Something went wrong.");
         exit(EXIT_FAILURE);
     }
 
