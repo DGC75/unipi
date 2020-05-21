@@ -42,8 +42,7 @@ int *alloc_arr(int dim);
 
 /*Custom*/
 
-int bfs_visit(Graph graph, int dim, int start_node, int end_node);
-
+int bfs_distance(Graph graph, int dim, int start_node, int end_node);
 int minimum_path(Graph graph,int dim,int start_node,int end_node);
 
 
@@ -83,10 +82,10 @@ int minimum_path(Graph graph,int dim,int start_node,int end_node){
     
     /*FAI UNA BFS E RITORNA LA LUNGHEZZA DEL PERCORSO TROVATO*/
 
-    return bfs_visit(graph, dim, start_node, end_node);
+    return bfs_distance(graph, dim, start_node, end_node);
 }
 
-int bfs_visit(Graph graph, int dim, int start_node, int end_node){
+int bfs_distance(Graph graph, int dim, int start_node, int end_node){
     
     if (start_node == end_node) 
         return 0;
