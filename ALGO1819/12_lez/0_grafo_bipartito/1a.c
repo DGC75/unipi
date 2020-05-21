@@ -1,244 +1,171 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include  <stdio.h>
+#include  <stdlib.h>
 
+typedef enum {WHITE, BLUE, RED} Color;
 
-/*DEFINITIONS*/
-/*Graph Definition*/
-typedef struct node{
+typedef struct {
     int num_edges;
     int *edges;
 } Node;
 
 typedef Node* Graph;
 
-/*Queue Definition*/
-typedef struct queue{
-    int *values;
-    int last_occupied_place;
-    int capacity;
-} Queue;
 
-
-/*METHODS*/
-/*Graph Methods*/
-int load_graph(Graph *graph_ptr);
-Graph alloc_graph(int dim);
-void bfs_visit(Graph graph, int dim, int start_node);
-void free_graph(Graph *graph_ptr, int dim);
-
-int is_bipartite(Graph graph, int dim, int start_node);
-
-
-/*Queue methods*/
-Queue* alloc_queue(int dim);
-void   free_queue(Queue **Queue_ptr,int dim);
-void   enqueue(Queue **queue_ptr ,int val);
-int    dequeue(Queue **queue_ptr);
-int    is_empty(Queue *queue);
-
-
-
-/*Helpers*/
-int*  alloc_arr(int dim);
+int get_int();
 void mem_err();
+Graph load_graph(int dim);
+Graph alloc_graph(int dim);
+void  free_graph(Graph *graph_ptr, int dim);
+int *alloc_arr(int dim);
 
+
+int is_bipartite(Graph graph, int dim);
+int recursive_dfs(Graph graph, int start_node, int* colors, int color);
+Color opposite_color(Color color);
+int dfs(Graph graph, int dim, int start_node);
 
 
 int main(){
-    /*LOAD GRAPH ORIENTATO, CON LISTE DI ADIACENZA COMPATTE*/
-    Graph new_graph; 
-    int dim_graph = load_graph(&new_graph);
+    /*CARICA GRAFO IN MEMORIA*/
+    int dim = get_int();
+    Graph graph = load_graph(dim);
 
-    /*CALCOLA E STAMPA SE IL GRAFO E' BIPARTITO O MENO*/
-    printf("%d\n", is_bipartite(new_graph, dim_graph, 0));
+    /*VERIFICA E STAMPA SE IL GRAFO E' BIPARTITO O MENO*/
+    printf("%d\n", is_bipartite(graph, dim));
 
     /*DEALLOCA GRAFO*/
-    free_graph(&new_graph, dim_graph);
-   
+    free_graph(&graph, dim);
+
     return 0;
 }
 
-int is_bipartite(Graph graph, int dim, int start_node){
-        /*FAI UNA BFS SUL GRAFO:*/
-            /*SETTA IL NODO DI PARTENZA DI COLORE: ROSSO*/
-            /*OGNI VOLTA CHE VISITI UN NODO*/
-            /*SE DI COLORE BIANCO*/ 
-                /*LO SI COLORA DEL COLORE OPPOSTO AL PADRE*/
-            /*SE IL COLORE E' DIVERSO DAL BIANCO*/
-                /*SE IL COLORE E' UGUALE A QUELLO DEL PADRE*/
-                    /*ESCI E RITORNA ZERO*/
-                /*ALTRIMENTI, NON FARE NULLA*/
+
+int is_bipartite(Graph graph, int dim){
+    /*FAI UNA DFS*/
+    /*COLORA IL PRIMO NODO DI UN DETERMINATO COLORE*/
+    /*NELLE CHIAMATE RICORSIVE CHIAMALO A COLORI OPPOSTI*/
+    /*SE RISULTA CHE UN VERTICE HA LO STESSO COLORE DI UNO ADIACENTE RITORNA 0*/
+    /*SE TUTTO PROCEDE BENE, RITORNA 1*/
+
+    return dfs(graph, dim, 0);
+
+}
+
+int recursive_dfs(Graph graph, int start_node, int* colors, int current_color){
+
+    /*    
+    printf("NODE: %d\n", start_node);
+    printf("NODE color: %d\n", colors[start_node]);
+    */
+
+    if(colors[start_node] != WHITE && colors[start_node] != current_color)
+        return 0;
+    
+    colors[start_node] = current_color;
+
+    int i, to;
+    for(i = 0; i < graph[start_node].num_edges; i++){
+    
+        to = graph[start_node].edges[i];
+        
+        if(colors[to] == WHITE && !recursive_dfs(graph, to, colors, opposite_color(current_color)))
+            return 0;
+
+        if (colors[to] != WHITE && colors[to] != opposite_color(current_color))
+            return 0;
+        
+    }
+
+    return 1;
+
+}
+
+
+
+Color opposite_color(Color color){
+    
+    if(color == RED)
+        return BLUE;
+    else if(color == BLUE)
+        return RED;
+
+    return WHITE;
+}
+
+int dfs(Graph graph, int dim, int start_node){
+    
+    /*ALLOCO E INIZIALIZZO L'ARRAY DEI COLORI*/
+    int *colors = alloc_arr(dim);
+    /*CHIAMO LA DFS RICORSIVAMENTE*/
+    int result = recursive_dfs(graph, start_node, colors, BLUE);
+
+    /*DEALLOCO E INIZIALIZZO L'ARRAY DEI COLORI*/
+    free(colors);
+    colors = NULL;
+
+    return result;
 }
 
 void free_graph(Graph *graph_ptr, int dim){
+    
+    if(graph_ptr != NULL){
+        int i;
+        for(i = 0; i < dim; i++)
+            free((*graph_ptr + i)->edges);
 
-    if(graph_ptr == NULL || *graph_ptr == NULL)
-        return;
-
-    int i;
-    for (i = 0; i < dim; i++){
-        if((*graph_ptr)[i].edges != NULL){
-            free((*graph_ptr)[i].edges);
-            (*graph_ptr)[i].edges = NULL;
-        }
+        free(*graph_ptr);
+        *graph_ptr = NULL;
     }
-
-    free(*graph_ptr);
-    *graph_ptr = NULL;
 }
 
-void bfs_visit(Graph graph, int dim, int start_node){
-    
-    int *colors = alloc_arr(dim);
+Graph load_graph(int dim){
 
-    printf("Nodo %d\n", start_node);
-    colors[start_node] = 1;
-    Queue *q = alloc_queue(dim);
-    
-    enqueue(&q, start_node);
-    
-    int src, i, dest;
-    while(!is_empty(q)){
-        
-        src = dequeue(&q);
-        
-        for(i = 0; i < graph[src].num_edges; i++){
-            /*VISITO L'IESIMO ARCO DEL NODO src*/
-            dest = graph[src].edges[i];
+    Graph new_graph = alloc_graph(dim);
 
-            /*SE IL COLORE E'BIANCO*/
-            /*SETTALO GRIGIO E INSERISCILO IN CODA*/
-            if(!colors[dest]){
-                printf("Nodo %d\n", dest);
-                colors[dest] = 1;
-                enqueue(&q, dest);
-            }
-        }
-
-    }
-
-    /*DEALLOCA CODA*/
-    free_queue(&q, dim);
-    free(colors);
-
-}
-
-int load_graph(Graph *graph_ptr){
-    
-    int nodes;
-    scanf("%d", &nodes);
-    scanf("%*[^\n]");
-    scanf("%*c");
-
-    Graph new_graph = alloc_graph(nodes);
-    
     int i;
-    for(i = 0; i < nodes; i++){
-        
+    for(i = 0; i < dim; i++){
 
         scanf("%d%*[ ]", &(new_graph[i].num_edges));
-        
-
         new_graph[i].edges = alloc_arr(new_graph[i].num_edges);
 
         int j;
         for(j = 0; j < new_graph[i].num_edges; j++)
-            scanf("%d%*[ ]", &(new_graph[i].edges[j]));    
+            scanf("%d%*[ ]", &(new_graph[i].edges[j]));
         
-
         scanf("%*[^\n]");
         scanf("%*c");
     }
 
-    *graph_ptr = new_graph;
-
-    return nodes;
+    return new_graph;    
 }
 
 Graph alloc_graph(int dim){
-    
-    Graph new_graph = calloc(dim, sizeof(Node));
-    if(new_graph == NULL)
-        mem_err();
 
-    return new_graph;
-}
-
-
-Queue* alloc_queue(int dim){
-    
-    Queue* new_queue = calloc(1, sizeof(Queue));
-    
-    new_queue->values = alloc_arr(dim);
-
-    if(new_queue == NULL)
+    Graph tmp = calloc(dim, sizeof(Node));
+    if(tmp == NULL)
         mem_err();
     
-    return new_queue;
-}
-
-void free_queue(Queue **queue_ptr, int dim){
-    if(queue_ptr != NULL && *queue_ptr != NULL){
-    free((*queue_ptr)->values);
-    (*queue_ptr)->values = NULL;
-    
-    free(*queue_ptr);
-    *queue_ptr = NULL;
-    }
-}
-
-void enqueue(Queue **queue_ptr, int val){
-    if(queue_ptr != NULL && *queue_ptr != NULL){
-        
-        if((*queue_ptr)->last_occupied_place == ((*queue_ptr)->capacity - 1)){
-            puts("Queue full. Something went wrong.");
-            exit(EXIT_FAILURE);
-        }
-        else{
-            (*queue_ptr)->values[(*queue_ptr)->last_occupied_place] = val;
-            (*queue_ptr)->last_occupied_place += 1;   
-        }
-
-    }    
-    
-}
-
-int dequeue(Queue **queue_ptr){
-    
-    if((*queue_ptr)->last_occupied_place == 0){
-        puts("Empty Queue. Something went wrong.");
-        exit(EXIT_FAILURE);
-    }
-
-    int head = (*queue_ptr)->values[0];
-    int i;
-    
-    for(i = 1; i <= (*queue_ptr)->last_occupied_place; i++)
-        (*queue_ptr)->values[i -1] = (*queue_ptr)->values[i];
-    
-    (*queue_ptr)->values[(*queue_ptr)->last_occupied_place] = 0;
-    (*queue_ptr)->last_occupied_place -= 1;
-
-    return head;
-}
-
-int is_empty(Queue *queue){
-    if(queue->last_occupied_place == 0)
-        return 1;
-    else
-        return 0;
+    return tmp;
 }
 
 int* alloc_arr(int dim){
-    
-    int* new_arr = calloc(dim, sizeof(int));
-    if(new_arr == NULL)
+    int *tmp = calloc(dim, sizeof(int));
+
+    if(tmp == NULL)
         mem_err();
 
-    return new_arr;
+    return tmp;
+}
+
+int get_int(){
+    int tmp;
+    scanf("%d", &tmp);
+    scanf("%*[^\n]");
+    scanf("%*c");
+    return tmp;
 }
 
 void mem_err(){
-    puts("memoria heap esaurita");
+    puts("memoria heap esaurita.");
     exit(EXIT_FAILURE);
 }

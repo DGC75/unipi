@@ -22,9 +22,9 @@ typedef struct queue{
 /*Graph Methods*/
 int load_graph(Graph *graph_ptr);
 Graph alloc_graph(int dim);
-void bfs_visit(Graph graph, int dim, int start_node);
 void free_graph(Graph *graph_ptr, int dim);
 
+void bfs_visit(Graph graph, int dim, int start_node);
 
 /*Queue methods*/
 Queue* alloc_queue(int dim);
@@ -151,12 +151,13 @@ Graph alloc_graph(int dim){
     return new_graph;
 }
 
-
 Queue* alloc_queue(int dim){
     
     Queue* new_queue = calloc(1, sizeof(Queue));
     
     new_queue->values = alloc_arr(dim);
+    
+    new_queue->capacity = dim;
 
     if(new_queue == NULL)
         mem_err();
