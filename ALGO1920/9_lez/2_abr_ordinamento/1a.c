@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*Tree Definitions*/
 
 typedef struct node{
     int val;
@@ -9,14 +10,29 @@ typedef struct node{
 } Node;
 
 typedef Node* Tree;
- 
+
+/*---*/
+
+/*Tree functions declaration*/
+
 Node*   alloc_new_node();
+void    abr_insert(Tree* tree_ptr, int val);
+void    free_tree(Tree* tree_ptr);
+
+/*---*/
+
+
+/*Helpers declaration*/
+
 void    mem_err();
 int     get_int();
-void    abr_insert(Tree* tree_ptr, int val);
-void    abr_query(Tree tree);
-void    free_tree(Tree* tree_ptr);
+
+/*---*/
+
+/*Custom funcs*/
 int     max(int c1, int c2);
+void    abr_query(Tree tree);
+/*---*/
 
 int main(){
 
