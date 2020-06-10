@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "cstdlib": "c"
-    }
+    },
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "Default Light+",
+    "workbench.preferredLightColorTheme": "Default Dark+"
 }
