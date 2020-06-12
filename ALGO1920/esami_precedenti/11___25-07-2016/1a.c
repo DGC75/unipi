@@ -34,6 +34,8 @@ int main(){
     return 0;
 }
 
+/*IMPLEMENTAZIONE CON VISITA SIMMETRICA ITERATIVA*/
+/*USO DI STACK NECESSARIO*/
 
 int mediana(Tree t, int dim){
     

@@ -35,36 +35,29 @@ int main(){
 }
 
 
+void io_visit(Tree t, int *count_ptr, int rank, int *output){
+    if(t != NULL){
+        io_visit(t->left, count_ptr, rank, output);
+        *count_ptr += 1;
+        if(*count_ptr == rank+1){
+            *output = t->key;
+            return;
+        }
+        io_visit(t->right, count_ptr, rank, output);
+    }
+}
+
+/*IMPLEMENTAZIONE CON VISITA SIMMETRICA RICORSIVA*/
 int mediana(Tree t, int dim){
     
     int rank = dim/2;
-    int counter = 0;
-    Node** stack = calloc(dim, sizeof(Node*));
-    int dim_stack = 0;
+    int count = 0;
+    int output;
 
-    while(dim_stack != 0 || t != NULL){
-        if(t != NULL){
-            stack[dim_stack++] = t;
-            t = t->left;
-        }
-        else{
-            t = stack[--dim_stack];
-            stack[dim_stack] = 0;
-            counter +=1;
-            
-            if(counter == rank + 1){
-                    free(stack);
-                    return t->key;
-            }
-                
-            t = t->right;
-        }
-    }
-    
-    return -1;
+    io_visit(t, &count, rank, &output);
+
+    return output;
 }
-
-
 
 
 
