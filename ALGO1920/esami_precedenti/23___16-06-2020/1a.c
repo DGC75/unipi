@@ -67,8 +67,11 @@ int abr_query(Tree t, int *sbil_max){
 }
 
 void abr_insert(Tree* t_ptr, int val){
+    
     if(t_ptr != NULL){
+    
         if(*t_ptr == NULL){
+        
             Node *new_node = calloc(1, sizeof(Node));
 
             if(new_node == NULL)
