@@ -3,9 +3,9 @@
 #include <string.h>
 
 typedef struct _node{
-    int key;/*  Chiave  */
-    struct  _node *left;/*  Sottoalbero  sinistro  */
-    struct  _node *right;/*  Sottoalbero  destro  */
+    int key;
+    struct  _node *left;
+    struct  _node *right;
 } Node;
 
 typedef Node* Tree;

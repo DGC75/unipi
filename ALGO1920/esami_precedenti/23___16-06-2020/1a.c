@@ -18,6 +18,16 @@ int get_int();
 void abr_insert(Tree* t_ptr, int val);
 void free_tree(Tree* t_ptr);
 
+int abr_query(Tree t, int *sbil_max);
+
+int max(int a, int b){
+    
+    if(a - b >= 0)
+        return a;
+    
+    return b;
+}
+
 int main(){
 
     Tree t = NULL;
@@ -27,10 +37,33 @@ int main(){
     for(i = 0; i < N; i++)
         abr_insert(&t, get_int());
 
-    
+
+    int sbil_max = 0;
+    abr_query(t, &sbil_max);
+
+    printf("%d\n", sbil_max);
 
     free_tree(&t);
     return 0;
+}
+
+int abr_query(Tree t, int *sbil_max){
+    
+    if(t == NULL)
+        return 0;
+
+    if(t->left == NULL && t->right == NULL)
+        return 1;
+    
+    int dim_left = abr_query(t->left, sbil_max);
+    int dim_right = abr_query(t->right, sbil_max);
+
+    int tmp = abs(dim_left - dim_right);
+
+    if(tmp > *sbil_max)
+        *sbil_max = tmp;
+
+    return 1 + dim_left + dim_right;    
 }
 
 void abr_insert(Tree* t_ptr, int val){
@@ -76,3 +109,4 @@ void mem_err(){
     puts("memoria heap esaurita");
     exit(EXIT_FAILURE);
 }
+
