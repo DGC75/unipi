@@ -9,18 +9,39 @@ void mem_err();
 int get_int();
 
 int* alloc_arr(int dim);
-
 void print_arr(int *arr, int dim);
+
+int alg(int dim, int *values, int pos);
 
 int main(){
     
     int n = get_int();
-    int *arr = alloc_arr(n);
+    int *values = alloc_arr(n);
+
+    int i;
+    for(i = 0; i < n; i++)
+        values[i] = get_int();
+    
+    printf("max:%d\n", alg(n, values, 0));
+
 
     return 0;
 }
 
 
+int alg(int dim, int *values, int pos){
+    
+
+    int i, tmp, max = 0;
+
+    for(i = 1; i <= dim - pos; i++){
+        tmp = values[i - 1] + alg(dim, values, pos + i);
+        if(tmp > max)
+            max = tmp;
+    }
+
+    return max;
+}
 
 void print_arr(int *arr, int dim){
     
