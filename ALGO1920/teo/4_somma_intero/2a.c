@@ -4,6 +4,12 @@
 
 #define MAX_STR_LEN 100
 
+typedef struct node{
+    
+    int val;
+    node* next;
+
+}Node;
 
 void mem_err();
 int get_int();
@@ -11,36 +17,44 @@ int get_int();
 int* alloc_arr(int dim);
 void print_arr(int *arr, int dim);
 
-int alg(int dim, int *values, int pos);
+int query(int *values, int dim, int* max_arr, int *seq);
 
 int main(){
     
     int n = get_int();
     int *values = alloc_arr(n);
+    int *m      = alloc_arr(n);
+    Node *s      = alloc_arr(n);
 
     int i;
     for(i = 0; i < n; i++)
-        values[i + 1] = get_int();
+        values[i] = get_int();
     
-    printf("max:%d\n", alg(n, values, 0));
+    /*
+    CALCOLA VARI SOTTOMASSIMI
+    m1 = v1
+    m2 = max(v1 + m1, v2)
+    m3 = max(v1 + m2, v2 + m1, v3)
+    ...
+    m(n) = max(v1 + m(n-1), v2 + m(n-2), ... , vn)
+    */
 
+   /*
+   ESTRAI SEQUENZA MASSIMA
+   s1 = 1
+   s2 = 1, s1 oppure 2.
+   s3 = 1, s2 o 2, s1 o 3.
+   sn = ...
+   */
+   
+    printf("%d\n", query(values, n, m, s));
+    print_seq(s);
 
     return 0;
 }
 
-
-int alg(int dim, int *values, int pos){
-    
-
-    int i, tmp, max = 0;
-
-    for(i = 1; i <= dim - pos; i++){
-        tmp = values[i - 1] + alg(dim, values, pos + i);
-        if(tmp > max)
-            max = tmp;
-    }
-
-    return max;
+int query(int *values, int dim, int* max_arr, int *seq){
+    if()
 }
 
 void print_arr(int *arr, int dim){
