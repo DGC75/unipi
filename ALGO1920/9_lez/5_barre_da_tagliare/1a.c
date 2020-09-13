@@ -5,10 +5,11 @@
 int get_int();
 void mem_err();
 
-int* alloc_arr(int);
-int** alloc_2d_int_matr(int rows, int cols);
+int* alloc_arr(int dim);
+void dealloc_arr(int* arr, int dim);
+void print_arr_val(int *max_pieces, int dim);
 
-void query(int*, int);
+int query(int* values,int* n_pieces, int dim);
 
 
 int main(){
@@ -18,63 +19,48 @@ int main(){
 
     int n = get_int();
 
-    int *prices = alloc_arr(n);
+    int *values = alloc_arr(n);
 
     int i;
     for(i = 0; i < n; i++)
-        prices[i] = get_int();
-    
-    /*STAMPA GUADAGNO MASSIMO*/
-    /*STAMPA SUDDIVISIONE CHE GENERA IL GUADAGNO MAX.*/
-    
-    query(prices, n);
+        values[i] = get_int();
+
+   int max_val = 0;
+
+
+    /*CALCOLA GUADAGNO MASSIMO*/
+    max_val = query(values, n, 1);
+
+    printf("%d\n", max_val);
+    dealloc_arr(values, n);
 
     return 0;
 }
 
-void query(int* prices, int dim){
-
-    /*MATRICE PESI/NUMERI OGGETTI*/
-    /*PESI = W = dim (lunghezza della barra da tagliare)*/
-    /*NUMERO OGGETTI = S = dim*/
-
-    int** matr = alloc_2d_int_matr(dim + 1, dim + 1);
+int query(int* values, int dim, int pos){
     
-    /*
-    i = SET OF OBJECTS {1, 2, ..., i}
-    j = PROGRESSIVE WEIGHT {1, 2, ..., j}
-    */
-    int i, j, m;
-    for(i = 1; i < dim + 1; i++){
-        for(j = 1; j < dim + 1; j++){
-            matr[i][j] = matr[i - 1][j];
-            /*POICHE' W[i] = i*/
-            if( j >= i){
-                m = matr[i - 1][j - i] + prices[i - 1];
-                if(m > matr[i][j])
-                    matr[i][j] = m;
-            }
+    int max_val = 0;
+
+
+}
+
+void print_arr_val(int *max_pieces, int dim){
+    
+    int i;
+    for(i = 0; i < dim; i++){
+        while(max_pieces[i] > 0){
+            printf("%d ", max_pieces[i]);
+            max_pieces[i]-= 1;
         }
     }
 
-    printf("%d\n", matr[dim][dim]);
-    /*TODO: PRINT ONE OF THE CORRECT SEQUENCES*/
+    puts("");
 }
 
+void dealloc_arr(int* arr, int dim){
 
-int** alloc_2d_int_matr(int rows, int cols){
-
-    int** tmp = calloc(rows, sizeof(int*));
-
-    if(tmp == NULL)
-        mem_err();
-
-    int i;
-    for(i = 0; i < rows; i++)
-        tmp[i] = alloc_arr(cols);
-
-    return tmp;
 }
+
 
 int* alloc_arr(int dim){
     
