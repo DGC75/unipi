@@ -1,0 +1,88 @@
+#! /usr/bin/vvp
+:ivl_version "10.3 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x55e563a4d030 .scope module, "testFA" "testFA" 2 1;
+ .timescale 0 0;
+v0x55e563a953f0_0 .var "a", 0 0;
+v0x55e563a954b0_0 .var "b", 0 0;
+v0x55e563a95580_0 .var "rin", 0 0;
+v0x55e563a95680_0 .net "rip", 0 0, L_0x55e563a95840;  1 drivers
+v0x55e563a95750_0 .net "som", 0 0, L_0x55e563aa5a80;  1 drivers
+S_0x55e563a4d1b0 .scope module, "adder" "fulladder" 2 6, 3 1 0, S_0x55e563a4d030;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "riporto"
+    .port_info 1 /OUTPUT 1 "somma"
+    .port_info 2 /INPUT 1 "rpin"
+    .port_info 3 /INPUT 1 "x1"
+    .port_info 4 /INPUT 1 "x2"
+UDP_fadd_rip .udp/comb "fadd_rip", 3
+ ,"0000"
+ ,"0010"
+ ,"0100"
+ ,"0111"
+ ,"1000"
+ ,"1011"
+ ,"1101"
+ ,"1111";
+L_0x55e563a95840 .udp UDP_fadd_rip, v0x55e563a95580_0, v0x55e563a953f0_0, v0x55e563a954b0_0;
+UDP_fadd_somma .udp/comb "fadd_somma", 3
+ ,"0000"
+ ,"0011"
+ ,"0101"
+ ,"0110"
+ ,"1001"
+ ,"1010"
+ ,"1100"
+ ,"1111";
+L_0x55e563aa5a80 .udp UDP_fadd_somma, v0x55e563a95580_0, v0x55e563a953f0_0, v0x55e563a954b0_0;
+v0x55e563a84680_0 .net "riporto", 0 0, L_0x55e563a95840;  alias, 1 drivers
+v0x55e563a94ff0_0 .net "rpin", 0 0, v0x55e563a95580_0;  1 drivers
+v0x55e563a950b0_0 .net "somma", 0 0, L_0x55e563aa5a80;  alias, 1 drivers
+v0x55e563a95180_0 .net "x1", 0 0, v0x55e563a953f0_0;  1 drivers
+v0x55e563a95240_0 .net "x2", 0 0, v0x55e563a954b0_0;  1 drivers
+    .scope S_0x55e563a4d030;
+T_0 ;
+    %vpi_call 2 10 "$dumpfile", "testFA.vcd" {0 0 0};
+    %vpi_call 2 11 "$dumpvars" {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55e563a953f0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55e563a954b0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a95580_0, 0, 1;
+    %delay 2, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a953f0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55e563a954b0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a95580_0, 0, 1;
+    %delay 2, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a953f0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a954b0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a95580_0, 0, 1;
+    %delay 2, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a953f0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55e563a954b0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55e563a95580_0, 0, 1;
+    %delay 5, 0;
+    %vpi_call 2 35 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "testFA.v";
+    "fadd.v";

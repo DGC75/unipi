@@ -1,0 +1,47 @@
+#! /usr/bin/vvp
+:ivl_version "10.3 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x55bd92bc7160 .scope module, "testRete1" "testRete1" 2 1;
+ .timescale 0 0;
+UDP_rete1 .udp/comb "rete1", 2
+ ,"001"
+ ,"011"
+ ,"101"
+ ,"110";
+L_0x55bd92c0ae70 .udp UDP_rete1, v0x55bd92bc72e0_0, v0x55bd92c0ad10_0;
+v0x55bd92bc72e0_0 .var "a", 0 0;
+v0x55bd92c0ad10_0 .var "b", 0 0;
+v0x55bd92c0add0_0 .net "c", 0 0, L_0x55bd92c0ae70;  1 drivers
+    .scope S_0x55bd92bc7160;
+T_0 ;
+    %vpi_call 2 16 "$dumpfile", "test.vcd" {0 0 0};
+    %vpi_call 2 18 "$dumpvars" {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55bd92bc72e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55bd92c0ad10_0, 0, 1;
+    %delay 3, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55bd92c0ad10_0, 0, 1;
+    %delay 3, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55bd92c0ad10_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55bd92bc72e0_0, 0, 1;
+    %delay 3, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55bd92c0ad10_0, 0, 1;
+    %delay 5, 0;
+    %vpi_call 2 42 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "testRete1.v";
