@@ -1,0 +1,82 @@
+$date
+	Thu Oct  8 15:21:03 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module test $end
+$var wire 1 ! q $end
+$var wire 1 " notq $end
+$var reg 1 # r $end
+$var reg 1 $ s $end
+$scope module sr $end
+$var wire 1 " nq $end
+$var wire 1 % nw1 $end
+$var wire 1 & nw2 $end
+$var wire 1 ! q $end
+$var wire 1 # r $end
+$var wire 1 $ s $end
+$var wire 1 ' w1 $end
+$var wire 1 ( w2 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+x(
+x'
+x&
+x%
+0$
+0#
+x"
+x!
+$end
+#5
+1!
+1%
+0'
+0"
+0&
+1(
+1$
+#10
+1"
+1&
+0(
+0!
+0%
+1'
+1#
+0$
+#15
+1!
+1%
+0'
+0"
+0&
+1(
+0#
+1$
+#20
+0$
+#25
+1"
+1&
+0(
+0!
+0%
+1'
+1#
+#30
+0#
+#35
+0"
+0&
+1(
+1#
+1$
+#45

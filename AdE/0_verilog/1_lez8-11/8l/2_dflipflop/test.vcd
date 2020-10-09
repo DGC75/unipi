@@ -1,0 +1,160 @@
+$date
+	Thu Oct  8 15:59:32 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module testDflipflop $end
+$var wire 1 ! q $end
+$var wire 1 " notq $end
+$var reg 1 # clock $end
+$var reg 1 $ d $end
+$scope module dlatch $end
+$var wire 1 # clock $end
+$var wire 1 $ d $end
+$var wire 1 % notclock $end
+$var wire 1 ! q $end
+$var wire 1 " notq $end
+$var wire 1 & n1 $end
+$var wire 1 ' dummy $end
+$scope module master $end
+$var wire 1 % clock $end
+$var wire 1 $ d $end
+$var wire 1 ( r $end
+$var wire 1 ) s $end
+$var wire 1 & q $end
+$var wire 1 ' nq $end
+$scope module sr $end
+$var wire 1 ' nq $end
+$var wire 1 * nw1 $end
+$var wire 1 + nw2 $end
+$var wire 1 & q $end
+$var wire 1 ( r $end
+$var wire 1 ) s $end
+$var wire 1 , w1 $end
+$var wire 1 - w2 $end
+$upscope $end
+$upscope $end
+$scope module slave $end
+$var wire 1 # clock $end
+$var wire 1 & d $end
+$var wire 1 . r $end
+$var wire 1 / s $end
+$var wire 1 ! q $end
+$var wire 1 " nq $end
+$scope module sr $end
+$var wire 1 " nq $end
+$var wire 1 0 nw1 $end
+$var wire 1 1 nw2 $end
+$var wire 1 ! q $end
+$var wire 1 . r $end
+$var wire 1 / s $end
+$var wire 1 2 w1 $end
+$var wire 1 3 w2 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+x3
+x2
+x1
+x0
+0/
+0.
+1-
+0,
+0+
+1*
+1)
+0(
+0'
+1&
+1%
+1$
+0#
+x"
+x!
+$end
+#1
+1!
+10
+02
+0"
+01
+0)
+13
+0%
+1/
+1#
+#2
+1'
+1+
+0-
+0&
+0*
+1,
+1(
+1%
+0/
+0#
+0$
+#3
+1"
+11
+03
+0!
+00
+0(
+12
+0%
+1.
+1#
+#4
+1&
+1*
+0,
+0'
+0+
+1-
+1)
+1%
+0.
+0#
+1$
+#5
+1!
+10
+02
+0"
+01
+0)
+13
+0%
+1/
+1#
+#6
+1)
+1%
+0/
+0#
+#7
+0)
+0%
+1/
+1#
+#8
+1)
+1%
+0/
+0#
+#9
+0)
+0%
+1/
+1#
