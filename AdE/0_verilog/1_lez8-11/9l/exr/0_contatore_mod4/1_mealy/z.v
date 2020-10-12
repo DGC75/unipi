@@ -1,14 +1,12 @@
-module z(output [1:0]out, input [1:0]s, input in);
+module z(output [1:0]out, input [1:0]s);
     
     wire dummy_r;
     wire dr2;
     wire [1:0] ext_in;
     
     assign
-        ext_in[1] = 0;
+        out[1] = in[1];
     assign
-        ext_in[0] = in;
-    
-    add2 add(dummy_r, out, dr2, s, ext_in);
+        out[0] = in[0];
 
 endmodule
