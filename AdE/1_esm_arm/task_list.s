@@ -1,0 +1,16 @@
+/*
+
+int f(int x){
+    return x+1;
+}
+
+)ESM PASSARE AD f PER VALORE E PER INDIRIZZO
+)PASSARE AD F PIU' DI 4 VALORI (USARE LO STACK)
+)COME VENGONO TRADOTTE PUSH E POP
+
+PUSH {...} := STRMFD SP! {...}
+POP  {...}:= LDRFD  SP! {...}
+
+
+
+*/
