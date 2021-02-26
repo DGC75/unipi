@@ -1,5 +1,6 @@
         .data
-s:      .string "%d\n"
+a:      .asciz "a"
+z:      .asciz "z"
 
         .text
         .global main
