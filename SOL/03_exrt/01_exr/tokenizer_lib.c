@@ -1,8 +1,4 @@
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 void tokenizer(char *stringa) {
   char* token = strtok(stringa, " ");
   while (token) {
