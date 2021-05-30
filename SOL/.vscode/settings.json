@@ -1,6 +1,14 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "tokenizer.h": "c"
+        "tokenizer.h": "c",
+        "errno.h": "c",
+        "types.h": "c",
+        "stat.h": "c",
+        "wait.h": "c",
+        "algorithm": "c",
+        "socket.h": "c",
+        "sem.h": "c",
+        "ipc.h": "c"
     }
 }
