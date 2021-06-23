@@ -303,7 +303,7 @@ icl_hash_dump(FILE* stream, icl_hash_t* ht)
         bucket = ht->buckets[i];
         for(curr=bucket; curr!=NULL; ) {
             if(curr->key)
-                fprintf(stream, "icl_hash_dump: %s: %p\n", (char *)curr->key, curr->data);
+                fprintf(stream, "%s\n", (char *)curr->key);
             curr=curr->next;
         }
     }

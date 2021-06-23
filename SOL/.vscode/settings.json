@@ -9,6 +9,17 @@
         "algorithm": "c",
         "socket.h": "c",
         "sem.h": "c",
-        "ipc.h": "c"
+        "ipc.h": "c",
+        "icl_hash.h": "c",
+        "limits.h": "c",
+        "unistd.h": "c",
+        "posix1_lim.h": "c",
+        "errno-base.h": "c",
+        "pthread.h": "c",
+        "netdb.h": "c",
+        "ec.h": "c",
+        "*.incl": "c",
+        "defs.h": "c",
+        "stdbool.h": "c"
     }
 }

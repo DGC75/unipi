@@ -5,75 +5,18 @@
 #include <pthread.h>
 #include <string.h>
 
-typedef struct string{
+typedef struct strNode{
     char *str;
-    struct string *next;
-    struct string *last;
-}String;
+    struct strNode *next;
+}StrNode;
 
-
-String *q_line = NULL;
-String *q_words = NULL;
-
-void enqueue(String** q, char *item){
-    
-    String *new = calloc(1, sizeof(String));
-    if(new == NULL){
-        perror("calloc");
-        exit(EXIT_FAILURE);
-    }
-
-    new->str = item;
-    new->next = NULL;
-    new->last = new;
-
-    if(q == NULL){
-        puts("enq: q==NULL");
-        free(new);
-        exit(EXIT_FAILURE);
-    }
-
-    if(*q == NULL){
-        *q = new;
-
-    }
-    else{
-        String *tmp = *q;
-        *q = new;
-        new->next = tmp;
-        new->last = tmp->last;
-    }
-
-    return;
-}
-
-char* dequeue(String** q){
-
-    char *str = NULL;
-    if(q == NULL){
-        puts("deq: q== NULL");
-        exit(EXIT_FAILURE);
-    }
-    if(*q == NULL){
-        puts("deq: *q== NULL");
-        exit(EXIT_FAILURE);
-    }
-    else{
-        str = (*q)->str;
-        String *toDeq = *q;
-        (*q) = (*q)->next;
-        free(toDeq);
-    }
-    return str;
-}
+typedef struct _strQueue{
+    StrNode *head;
+    StrNode *tail;
+}StrQueue;
 
 pthread_mutex_t mtx_ql = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mtx_qw = PTHREAD_MUTEX_INITIALIZER;
-
-int l_is_active = 0;
-
-int wait_new_data_ql = 1;
-int wait_new_data_qw = 1;
 
 void mtx_lock(pthread_mutex_t *mtx_ptr){
     int err;
@@ -99,7 +42,99 @@ void mtx_unlock(pthread_mutex_t *mtx_ptr){
     }
 }
 
+void initStrQueue(StrQueue *q_ptr){
+    q_ptr->head = NULL;
+    q_ptr->tail = NULL;
+}
+
+int isEmpty(StrQueue q){
+
+    if((q.head == NULL))
+        return 1;
+
+    return 0;
+}
+
+void enqueue(StrQueue *q_ptr, char *str){
+
+    StrNode* newNode = calloc(1, sizeof(StrNode));
+    if(newNode == NULL){
+        perror("calloc");
+        exit(EXIT_FAILURE);
+    }
+
+    newNode->str = str;
+    //METTE IN CIMA
+    if(q_ptr == NULL){
+        puts("enqueue: passed non allocated queue");
+        exit(EXIT_FAILURE);
+    }
+
+    if(q_ptr->head == NULL){
+        q_ptr->tail = newNode;
+        newNode->next = NULL;
+    }
+    else{
+        newNode->next = q_ptr->head;
+    }
+
+    q_ptr->head = newNode;
+
+}
+
+char* dequeue(StrQueue *q_ptr){
+    
+    char *retVal;
+    StrNode *tmpNode = q_ptr->head;
+    if(q_ptr->head == NULL){
+        retVal = NULL;
+    }
+    else if( q_ptr->head == q_ptr->tail){
+
+        q_ptr->head = NULL; 
+        q_ptr->tail = NULL;
+        retVal = tmpNode->str;
+        free(tmpNode);
+    }
+    else{
+        
+        while(tmpNode->next != q_ptr->tail)
+            tmpNode = tmpNode->next;
+        
+        q_ptr->tail = tmpNode;
+        tmpNode = tmpNode->next;
+        q_ptr->tail->next = NULL;
+
+        retVal = tmpNode->str;
+
+        free(tmpNode);
+
+    }
+
+    return retVal;
+}
+
+void printQueue(StrQueue q){
+    StrNode *tmp = q.head;
+
+    while(tmp != NULL){
+        puts(tmp->str);
+        tmp = tmp->next;
+    }
+}
+//VENGONO INIZIALIZZATE ALL'INIZIO DEL MAIN
+StrQueue lineQueue, wordQueue;
+
+
+int doc_started     = 0;
+int doc_finished    = 0;
+
+int lines_started   = 0;
+int lines_finished  = 0;
+
 static void*parseDoc(void *arg){
+
+    
 
     char *line = NULL;
     size_t len = 0;
@@ -112,76 +147,79 @@ static void*parseDoc(void *arg){
         exit(EXIT_FAILURE);
     }
 
-    wait_new_data_ql = 1;
-
+    
     while ((nread = getline(&line, &len, file)) != -1) {
-        l_is_active = 1;
+        doc_started = 1;
         mtx_lock(&mtx_ql);
-        enqueue(&q_line, line);
+        enqueue(&lineQueue, line);
         mtx_unlock(&mtx_ql);
         len = 0;
     }
+    doc_finished = 1;
 
-
-    wait_new_data_ql = 0;
-    l_is_active = 0;
-    free(line);
     fclose(file);
-    puts("parsedoc finito");
-    fflush(stdout);
+    return NULL;
+
+
     return NULL;
 }
 
 static void*parseLine(void *arg){
-
+    
     char* line;
     char *state;
 
-    wait_new_data_qw = 1;
-    
-    while((!l_is_active) && (q_line == NULL));
 
-    while((wait_new_data_ql != 0) || (q_line != NULL)){
-        puts("q");
+    while((!doc_started) && (isEmpty(lineQueue)))
+        continue;
+    
+
+
+
+    while((!doc_finished) || (!isEmpty(lineQueue) )){
+        
+        lines_started = 1;
         mtx_lock(&mtx_ql);
-        line = dequeue(&q_line);
-        printf("line:%s\n", line);
+        line = dequeue(&lineQueue);
+        //printf("line:%s\n", line);
         fflush(stdout);
         mtx_unlock(&mtx_ql);
-
+        
         char *word = strtok_r(line, " ", &state);
         while(word != NULL){
 
             mtx_lock(&mtx_qw);
-            enqueue(&q_words, word);
+            enqueue(&wordQueue, word);
+            //printf("enqueued: %s, ", wordQueue.head->str);
             mtx_unlock(&mtx_qw);
 
             word = strtok_r(NULL, " ", &state);
         }
 
-        free(line);
-    }
-    
 
-    wait_new_data_qw = 0;
+        
+    }
+    lines_finished = 1;
+
     return NULL;
 }
 
 static void*printWords(void *arg){
     
-    puts("3 l");
     char *word;
 
+    while((!lines_started) && (isEmpty(wordQueue)))
+        continue;
 
-
-    while((wait_new_data_qw != 0) || (q_words != NULL)){
+    while((!lines_finished) || (!isEmpty(wordQueue))){
         mtx_lock(&mtx_qw);
-        word = dequeue(&q_words);
-
+        word = dequeue(&wordQueue);
+        if(word != NULL)
+            printf("Received:%s\n", word);
+        fflush(stdout);
         mtx_unlock(&mtx_qw);
 
-        printf("Received:%s\n", word);
-        free(word);
+
     }
 
     return NULL;
@@ -191,19 +229,21 @@ int main (int argc, char *argv[]){
     
     pthread_t parseDocTh, parseLineTh, printWordsTh;
     //CREA THREAD
-
+    initStrQueue(&lineQueue);
+    initStrQueue(&wordQueue);
     int errpD, errpL, errpW;
 
     if((errpD = pthread_create(&parseDocTh, NULL, parseDoc, (void *)(argv[1]))) != 0)
         perror("pthread create");
-
+    
+    
     if((errpL = pthread_create(&parseLineTh, NULL, parseLine, NULL)) != 0)
         perror("pthread create");
+
     
     if((errpW = pthread_create(&printWordsTh, NULL, printWords, NULL)) != 0)
         perror("pthread create");
-
-
+    
 
     pthread_join(parseDocTh, NULL);
     pthread_join(parseLineTh, NULL);
