@@ -14,14 +14,12 @@ int main(void){
     char msg[N];
 
 
-
-
     while(1){
         if(pipe(pfd) == -1){ perror("error pipe"); exit(EXIT_FAILURE);}
         if((pid = fork()) == -1){ perror("fork err"); exit(EXIT_FAILURE);}
 
         if(pid){//PARENT
-            close(pfd[0]);
+            
             fgets(msg, N, stdin);
             l = write(pfd[1], msg, N);
             if(!strncmp("quit\n", msg, 5)){close(pfd[0]); puts("received quit parent"); close(pfd[1]); break;}
@@ -35,7 +33,8 @@ int main(void){
                 break;
             }
             else if(l){
-                printf("Received:%s", msg);
+                //printf("Received:%s", msg);
+                if ( dup2(pfd[1],1)== -1) {/* errore */}
                 break;
             }
             close(pfd[0]);

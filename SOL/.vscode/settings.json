@@ -20,6 +20,12 @@
         "ec.h": "c",
         "*.incl": "c",
         "defs.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "util.h": "c",
+        "fcntl.h": "c",
+        "sstream": "cpp",
+        "utils.h": "c",
+        "cstdlib": "c",
+        "cerrno": "c"
     }
 }
