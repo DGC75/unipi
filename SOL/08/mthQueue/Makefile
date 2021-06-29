@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -pedantic -std=c90 -Wall -pthread
+CFLAGS = -std=c99 -pthread
 
 
 all: mthQueue

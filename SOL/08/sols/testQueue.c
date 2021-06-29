@@ -66,6 +66,19 @@ void usage(char *pname) {
 }
 	    
 
+void print_queue(Queue_t *q){
+    Node_t *node = q->head;
+    puts("printing queue:");
+    while(node != NULL){
+        if(node->data != NULL)
+            printf("%s\n", (char*)node->data);
+        else{puts("NULL");}
+
+        node = node->next;
+    }
+    puts("end queue");
+}
+
 int main(int argc, char *argv[]) { 
     extern char *optarg;
     int p=0,c=0, n=0, opt;
@@ -152,6 +165,9 @@ int main(int argc, char *argv[]) {
 	pthread_join(th[p+i], NULL);
 
     // libero memoria
+
+    print_queue(q);
+
     deleteQueue(q);
     free(th);
     free(thARGS);

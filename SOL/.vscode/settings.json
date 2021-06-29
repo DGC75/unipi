@@ -26,6 +26,12 @@
         "sstream": "cpp",
         "utils.h": "c",
         "cstdlib": "c",
-        "cerrno": "c"
+        "cerrno": "c",
+        "queue.h": "c",
+        "stdlib.h": "c",
+        "getopt.h": "c",
+        "un.h": "c",
+        "functional": "c",
+        "string.h": "c"
     }
 }
